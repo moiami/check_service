@@ -19,9 +19,11 @@ async def get_comment_report(id: UUID) -> CommentReport:
         return result.scalar_one_or_none()
 
 
-async def insert_comment_report(new_cr: CommentReport) -> None:
+async def insert_comment_report(new_cr: CommentReport) -> UUID:
     async with async_session() as session, session.begin():
         session.add(new_cr)
+        await session.flush()
+        return new_cr.id
 
 
 async def update_comment_report(cr_in: CommentReportUpdateDto) -> None:
