@@ -13,6 +13,12 @@ async def get_comment_reports() -> list[CommentReport]:
         return list(result.scalars().all())
 
 
+async def get_comment_reports_by_user_id(user_id: UUID) -> list[CommentReport]:
+    async with async_session() as session, session.begin():
+        result = await session.execute(select(CommentReport).where(CommentReport.user_id == user_id))
+        return list(result.scalars().all())
+
+
 async def get_comment_report(id: UUID) -> CommentReport:
     async with async_session() as session, session.begin():
         result = await session.execute(select(CommentReport).where(CommentReport.id == id))

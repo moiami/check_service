@@ -9,3 +9,11 @@ class CheckCommentRequest(BaseModel):
 
 class CheckCommentResponse(BaseModel):
     comment_report_id: UUID
+
+
+class CheckUserRequest(BaseModel):
+    user_id: UUID
+
+
+class CheckUserResponse(BaseModel):
+    report_id: UUID
