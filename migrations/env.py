@@ -13,10 +13,10 @@ from alembic import context
 
 # Import Base and ALL models so Alembic can see the metadata
 from src.domain.models.base import Base
-import src.domain.models.report        # noqa: F401  registers Report, ReportComment, ReportRelated
-import src.domain.models.comment_report # noqa: F401  registers CommentReport
-import src.domain.models.news           # noqa: F401  registers News, NewsFilmReview
-import src.domain.models.film_review    # noqa: F401  registers FilmReview
+import src.data.models.report        # noqa: F401  registers Report, ReportComment, ReportRelated
+import src.data.models.comment_report # noqa: F401  registers CommentReport
+import src.data.models.news           # noqa: F401  registers News, NewsFilmReview
+import src.data.models.film_review    # noqa: F401  registers FilmReview
 
 config = context.config
 

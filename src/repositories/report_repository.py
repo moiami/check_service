@@ -16,7 +16,7 @@ async def get_reports() -> list[Report]:
 async def get_report(id: UUID) -> Report:
     async with async_session() as session, session.begin():
         result = await session.execute(select(Report).where(Report.id == id))
-        return result.scalar_one()
+        return result.scalar_one_or_none()
 
 
 async def insert_report(new_report: Report, comment_ids: list[UUID], related_report_ids: list[UUID]) -> None:
@@ -35,7 +35,7 @@ async def update_report(report_in: ReportUpdateDto) -> None:
     async with async_session() as session, session.begin():
         report: Report = (
             await session.execute(select(Report).where(Report.id == report_in.id))
-        ).scalar_one()
+        ).scalar_one_or_none()
         report.conclusion = report_in.conclusion
 
 

@@ -1,4 +1,4 @@
-name: 'moimai-check'
+name: 'moiami-check'
 services:
   postgres-check:
     image: postgres:latest
@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
-
+ 
   check:
     build: .
     restart: unless-stopped
@@ -18,3 +18,4 @@ services:
       - postgres-check
     environment:
       - DATABASE_URL=postgresql+asyncpg://postgres:root@postgres-check:5432/postgres
+ 

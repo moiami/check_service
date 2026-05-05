@@ -39,7 +39,7 @@ async def film_review(id: UUID) -> FilmReviewDto:
 
 
 async def create_film_review(data: FilmReviewCreateDto) -> dict[str, str]:
-    """Internal only — background task triggered by Arseniy's service after AI generates review."""
+    """Internal only - background task triggered when AI generated review."""
     try:
         new_review = FilmReview(
             film_id=data.film_id,

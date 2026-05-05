@@ -46,7 +46,7 @@ async def report(id: UUID) -> ReportDto:
 
 
 async def create_report(data: ReportCreateDto) -> dict[str, str]:
-    """Internal only — called by Arseniy's service after admin triggers check_comment."""
+    """Internal only - called when admin triggers check_comment."""
     try:
         new_report = Report(user_id=data.user_id, report_text=data.report_text)
         await insert(new_report, data.comment_ids, data.related_report_ids)

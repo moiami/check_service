@@ -16,7 +16,7 @@ async def get_news_list() -> list[News]:
 async def get_news(id: UUID) -> News:
     async with async_session() as session, session.begin():
         result = await session.execute(select(News).where(News.id == id))
-        return result.scalar_one()
+        return result.scalar_one_or_none()
 
 
 async def insert_news(new_news: News, film_review_ids: list[UUID]) -> None:

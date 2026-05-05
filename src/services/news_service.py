@@ -42,7 +42,7 @@ async def news(id: UUID) -> NewsDto:
 
 
 async def create_news(data: NewsCreateDto) -> dict[str, str]:
-    """Internal only — background task triggered by Arseniy's service."""
+    """Internal only - background task"""
     try:
         new_news = News()
         await insert(new_news, data.film_review_ids)

@@ -20,7 +20,7 @@ class CommentReportDto(BaseModel):
 class CommentReportCreateDto(BaseModel):
     comment_id: UUID
     user_id: UUID
-    report_text: str  # LLM-generated text, passed in by Arseniy's service
+    report_text: str
 
 
 class CommentReportUpdateDto(BaseModel):

@@ -40,8 +40,8 @@ async def comment_report(id: UUID) -> CommentReportDto:
 
 async def create_comment_report(data: CommentReportCreateDto) -> dict[str, str]:
     """
-    Internal only — Arseniy's service calls this after LLM generates report_text.
-    Flow: admin -> check_comment endpoint (Arseniy) -> LLM -> this function saves result.
+    Internal only - called when LLM generated report_text.
+    Flow: admin -> check_comment endpoint -> LLM -> this function saves result.
     """
     try:
         new_cr = CommentReport(
