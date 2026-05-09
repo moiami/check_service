@@ -45,12 +45,11 @@ async def report(id: UUID) -> ReportDto:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
 
 
-async def create_report(data: ReportCreateDto) -> dict[str, str]:
+async def create_report(data: ReportCreateDto) -> UUID:
     """Internal only - called when admin triggers check_comment."""
     try:
         new_report = Report(user_id=data.user_id, report_text=data.report_text)
-        await insert(new_report, data.comment_ids, data.related_report_ids)
-        return {"Info": "Success"}
+        return await insert(new_report, data.comment_ids, data.related_report_ids)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
 
