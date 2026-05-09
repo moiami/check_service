@@ -38,7 +38,7 @@ async def comment_report(id: UUID) -> CommentReportDto:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
 
 
-async def create_comment_report(data: CommentReportCreateDto) -> dict[str, str]:
+async def create_comment_report(data: CommentReportCreateDto) -> UUID:
     """
     Internal only - called when LLM generated report_text.
     Flow: admin -> check_comment endpoint -> LLM -> this function saves result.
@@ -49,8 +49,7 @@ async def create_comment_report(data: CommentReportCreateDto) -> dict[str, str]:
             user_id=data.user_id,
             report_text=data.report_text,
         )
-        await insert(new_cr)
-        return {"Info": "Success"}
+        return await insert(new_cr)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
 

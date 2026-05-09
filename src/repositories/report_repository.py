@@ -13,13 +13,19 @@ async def get_reports() -> list[Report]:
         return list(result.scalars().all())
 
 
+async def get_reports_by_user_id(user_id: UUID) -> list[Report]:
+    async with async_session() as session, session.begin():
+        result = await session.execute(select(Report).where(Report.user_id == user_id))
+        return list(result.scalars().all())
+
+
 async def get_report(id: UUID) -> Report:
     async with async_session() as session, session.begin():
         result = await session.execute(select(Report).where(Report.id == id))
         return result.scalar_one_or_none()
 
 
-async def insert_report(new_report: Report, comment_ids: list[UUID], related_report_ids: list[UUID]) -> None:
+async def insert_report(new_report: Report, comment_ids: list[UUID], related_report_ids: list[UUID]) -> UUID:
     async with async_session() as session, session.begin():
         session.add(new_report)
         await session.flush()  # get new_report.id
@@ -29,6 +35,8 @@ async def insert_report(new_report: Report, comment_ids: list[UUID], related_rep
 
         for rid in related_report_ids:
             session.add(ReportRelated(report_id=new_report.id, related_report_id=rid))
+
+        return new_report.id
 
 
 async def update_report(report_in: ReportUpdateDto) -> None:
