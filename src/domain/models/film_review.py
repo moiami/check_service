@@ -6,7 +6,6 @@ from pydantic import BaseModel
 class FilmReviewDto(BaseModel):
     id: UUID
     film_id: UUID
-    comment_id: UUID
     new_category: str
     review: str
 
@@ -15,7 +14,6 @@ class FilmReviewDto(BaseModel):
 
 class FilmReviewCreateDto(BaseModel):
     film_id: UUID
-    comment_id: UUID
     new_category: str
     review: str
 
