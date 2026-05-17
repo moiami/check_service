@@ -19,9 +19,11 @@ async def get_film_review(id: UUID) -> FilmReview:
         return result.scalar_one_or_none()
 
 
-async def insert_film_review(new_review: FilmReview) -> None:
+async def insert_film_review(new_review: FilmReview) -> UUID:
     async with async_session() as session, session.begin():
         session.add(new_review)
+        await session.flush()
+        return new_review.id
 
 
 async def update_film_review(review_in: FilmReviewUpdateDto) -> None:

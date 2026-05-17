@@ -38,17 +38,15 @@ async def film_review(id: UUID) -> FilmReviewDto:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
 
 
-async def create_film_review(data: FilmReviewCreateDto) -> dict[str, str]:
+async def create_film_review(data: FilmReviewCreateDto) -> UUID:
     """Internal only - background task triggered when AI generated review."""
     try:
         new_review = FilmReview(
             film_id=data.film_id,
-            comment_id=data.comment_id,
             new_category=data.new_category,
             review=data.review,
         )
-        await insert(new_review)
-        return {"Info": "Success"}
+        return await insert(new_review)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
 

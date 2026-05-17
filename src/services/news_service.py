@@ -7,6 +7,7 @@ from src.data.models.news import News
 from src.domain.models.news import NewsCreateDto, NewsDeleteDto, NewsDto, NewsUpdateDto
 from src.repositories.news_repository import (
     delete_news as delete,
+    get_latest_news,
     get_news,
     get_news_list,
     insert_news as insert,
@@ -26,7 +27,8 @@ async def news_list() -> list[NewsDto]:
     try:
         return [_to_dto(n) for n in await get_news_list()]
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="INTERNAL SERVER ERROR") from e
 
 
 async def news(id: UUID) -> NewsDto:
@@ -36,19 +38,21 @@ async def news(id: UUID) -> NewsDto:
             raise TypeError
         return _to_dto(item)
     except TypeError as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NOT FOUND") from e
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="NOT FOUND") from e
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="INTERNAL SERVER ERROR") from e
 
 
-async def create_news(data: NewsCreateDto) -> dict[str, str]:
+async def create_news(data: NewsCreateDto) -> UUID:
     """Internal only - background task"""
     try:
         new_news = News()
-        await insert(new_news, data.film_review_ids)
-        return {"Info": "Success"}
+        return await insert(new_news, data.film_review_ids)
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="INTERNAL SERVER ERROR") from e
 
 
 async def update_news(data: NewsUpdateDto) -> dict[str, str]:
@@ -56,7 +60,8 @@ async def update_news(data: NewsUpdateDto) -> dict[str, str]:
         await update(data)
         return {"Info": "Success"}
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="INTERNAL SERVER ERROR") from e
 
 
 async def delete_news(data: NewsDeleteDto) -> dict[str, str]:
@@ -64,4 +69,19 @@ async def delete_news(data: NewsDeleteDto) -> dict[str, str]:
         await delete(data.id)
         return {"Info": "Success"}
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="INTERNAL SERVER ERROR") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="INTERNAL SERVER ERROR") from e
+
+
+async def latest_news_id() -> UUID:
+    try:
+        item = await get_latest_news()
+        if item is None:
+            raise TypeError
+        return item.id
+    except TypeError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="NOT FOUND") from e
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="INTERNAL SERVER ERROR") from e

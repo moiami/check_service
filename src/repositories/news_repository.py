@@ -19,13 +19,21 @@ async def get_news(id: UUID) -> News:
         return result.scalar_one_or_none()
 
 
-async def insert_news(new_news: News, film_review_ids: list[UUID]) -> None:
+async def insert_news(new_news: News, film_review_ids: list[UUID]) -> UUID:
     async with async_session() as session, session.begin():
         session.add(new_news)
         await session.flush()
 
         for frid in film_review_ids:
             session.add(NewsFilmReview(news_id=new_news.id, film_review_id=frid))
+
+        return new_news.id
+
+
+async def get_latest_news() -> News:
+    async with async_session() as session, session.begin():
+        result = await session.execute(select(News).order_by(News.date.desc()).limit(1))
+        return result.scalar_one_or_none()
 
 
 async def update_news(news_in: NewsUpdateDto) -> None:
