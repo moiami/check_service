@@ -1,21 +1,5 @@
 name: "moiami-check"
 services:
-  comments-service:
-    image: leoagf/comment:1.5
-    restart: unless-stopped
-    ports:
-      - "8007:8007"
-    environment:
-      DEBUG: "false"
-      RESOURCE_SERVICE_URL: "http://resource:8000"
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/comments"
-      SQLALCHEMY_DATABASE_URI: "postgresql://postgres:postgres@db:5432/comments"
-      SQLALCHEMY_TRACK_MODIFICATIONS: "false"
-      FLASK_RUN_NO_RELOAD: "1"
-    depends_on:
-      db:
-        condition: service_healthy
-
   check:
     build:
       context: .
@@ -33,28 +17,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      comments-service:
-        condition: service_started
       ollama:
         condition: service_started
 
-  resource:
-    image: trard/moiami_resource_service:1.12
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    environment:
-      SECRET_KEY: "django-insecure-o&+f#_3gh5d^t=00y37i$$l!)&g44@)_g$$e0#=ourvm2g_l3w)2"
-      DEBUG: true
-      ALLOWED_HOSTS: "localhost,127.0.0.1,resource"
-      DB_NAME: resource
-      DB_HOST: db
-      DB_PORT: 5432
-    depends_on:
-      db:
-        condition: service_healthy
-    volumes:
-      - static_files:/app/staticfiles
 
   db:
     image: postgres:16-alpine
@@ -70,17 +35,7 @@ services:
       retries: 5
     volumes:
       - postgres_data2:/var/lib/postgresql/data
-      - ./init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
-
-  s3:
-    image: quay.io/minio/minio:latest
-    restart: unless-stopped
-    command: server /data --console-address ":9001"
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - minio_data:/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
   ollama:
     image: ollama/ollama:latest
@@ -95,7 +50,7 @@ services:
     depends_on:
       - ollama
     entrypoint: ["/bin/sh", "-c"]
-    command: ["ollama pull qwen2:8b"]
+    command: ["ollama pull qwen2:7b"]
     volumes:
       - ollama:/root/.ollama
     restart: "no"
@@ -103,5 +58,4 @@ services:
 volumes:
   postgres_data2:
   static_files:
-  minio_data:
   ollama:
