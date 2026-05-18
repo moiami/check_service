@@ -1,3 +1,0 @@
-CREATE DATABASE check_db;
-CREATE DATABASE comments;
-CREATE DATABASE resource;
