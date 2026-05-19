@@ -1,27 +1,49 @@
 # Moiami_check_service
 
-Сервис для проверки пользователей и комментариев, а также генерации ежедневных новостей по топ-фильмам.
+Сервис выполняет следующие функции:
+- проверка пользователей
+- проверка комментариев
+- генерация ежедневных новостей по топ фильмам
 
 Эндпоинты:
 GET /health/
+
 POST /api/v1/check/comment
+
 POST /api/v1/check/user
+
 GET /api/v1/news/
+
 GET /api/v1/news/latest
+
 GET /api/v1/news/{id}
+
 PATCH /api/v1/news/
+
 DELETE /api/v1/news/
+
 GET /api/v1/reports/
+
 GET /api/v1/reports/{id}
+
 PATCH /api/v1/reports/
+
 DELETE /api/v1/reports/
+
 GET /api/v1/comment-reports/
+
 GET /api/v1/comment-reports/{id}
+
 PATCH /api/v1/comment-reports/
+
 DELETE /api/v1/comment-reports/
+
 GET /api/v1/film-reviews/
+
 GET /api/v1/film-reviews/{id}
+
 PATCH /api/v1/film-reviews/
+
 DELETE /api/v1/film-reviews/
 
 ## Главные ручки и бизнес-правила
