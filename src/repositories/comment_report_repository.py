@@ -37,7 +37,7 @@ async def update_comment_report(cr_in: CommentReportUpdateDto) -> None:
         cr: CommentReport = (
             await session.execute(select(CommentReport).where(CommentReport.id == cr_in.id))
         ).scalar_one_or_none()
-        cr.conclusion = cr_in.conclusion
+        cr.conclusion = cr_in.conclusion.value
 
 
 async def delete_comment_report(id: UUID) -> None:

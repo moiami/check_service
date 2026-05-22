@@ -119,9 +119,11 @@ def _build_comment_prompt(comment_text: str) -> str:
         "Ты модератор комментариев. Проверь комментарий по правилам:\n"
         f"{rules}\n\n"
         "Сделай краткий анализ и укажи итог в конце отдельной строкой:\n"
-        "CONCLUSION=blocking|everything_is_fine\n\n"
-        "Комментарий:\n"
-        f"{comment_text}"
+        "ОБЯЗАТЕЛЬНО напиши в последней строке ответа РОВНО ОДНО из двух:\n"
+        "CONCLUSION=blocking\n"
+        "или\n"
+        "CONCLUSION=everything_is_fine\n\n"
+        "Комментарий: " + comment_text
     )
 
 
@@ -136,18 +138,24 @@ def _build_user_prompt(comment_reports: list, reports: list) -> str:
         "Данные для анализа:\n"
         f"{comment_section}\n\n"
         f"{report_section}\n\n"
-        "Сделай краткий анализ и укажи итог в конце отдельной строкой:\n"
-        "CONCLUSION=blocking|everything_is_fine"
+        "Ответь в формате:\n"
+        "CONCLUSION=blocking\n"
+        "или\n"
+        "CONCLUSION=everything_is_fine"
     )
 
 
 def _extract_conclusion(text: str) -> tuple[str, str | None]:
-    matches = list(re.finditer(r"CONCLUSION\s*=\s*([^\s]+)", text, re.IGNORECASE))
+    matches = list(re.finditer(
+        r"CONCLUSION\s*=\s*([^\s]+)", text, re.IGNORECASE))
     conclusion = None
     if matches:
         conclusion = _normalize_conclusion(matches[-1].group(1))
+    else:
+        conclusion = "everything_is_fine"
 
-    cleaned = re.sub(r"\s*CONCLUSION\s*=\s*[^\s]+\s*", " ", text, flags=re.IGNORECASE)
+    cleaned = re.sub(
+        r"\s*CONCLUSION\s*=\s*[^\s]+\s*", " ", text, flags=re.IGNORECASE)
     cleaned = "\n".join(line.strip() for line in cleaned.splitlines()).strip()
     if not cleaned:
         cleaned = text.strip()

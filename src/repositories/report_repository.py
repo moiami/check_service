@@ -44,7 +44,7 @@ async def update_report(report_in: ReportUpdateDto) -> None:
         report: Report = (
             await session.execute(select(Report).where(Report.id == report_in.id))
         ).scalar_one_or_none()
-        report.conclusion = report_in.conclusion
+        report.conclusion = report_in.conclusion.value
 
 
 async def delete_report(id: UUID) -> None:

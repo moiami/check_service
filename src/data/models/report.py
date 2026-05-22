@@ -1,7 +1,7 @@
 import enum
 from uuid import uuid4
 
-from sqlalchemy import UUID, Column, DateTime, Enum, ForeignKey, Text, func
+from sqlalchemy import UUID, Column, DateTime, ForeignKey, Text, func
 from sqlalchemy.orm import relationship
 
 from src.domain.models.base import Base
@@ -45,7 +45,7 @@ class Report(Base):
     user_id = Column(UUID(as_uuid=True), nullable=False, index=True)
     date = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     report_text = Column(Text, nullable=False)
-    conclusion = Column(Enum(ConclusionEnum), nullable=True)  # set after admin review
+    conclusion = Column(Text, nullable=True)  # set after admin review
 
     comments = relationship(
         "ReportComment",
@@ -62,8 +62,11 @@ class Report(Base):
         self,
         user_id,
         report_text: str,
-        conclusion: ConclusionEnum | None = None,
+        conclusion: ConclusionEnum | str | None = None,
     ) -> None:
         self.user_id = user_id
         self.report_text = report_text
-        self.conclusion = conclusion
+        if isinstance(conclusion, ConclusionEnum):
+            self.conclusion = conclusion.value
+        else:
+            self.conclusion = conclusion
