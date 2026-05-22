@@ -22,6 +22,7 @@ async def _http_prompt(data: LLMPromptRequest, url: str) -> LLMPromptResponse:
     model = data.model or config.LLM_MODEL
     payload = {
         config.LLM_REQUEST_TEXT_FIELD: data.text,
+        "stream": False,
     }
     if model:
         payload[config.LLM_REQUEST_MODEL_FIELD] = model

@@ -13,6 +13,7 @@ from src.api.v1 import (
     report_router,
 )
 from src.api.v1.check_router import router as check_router
+from src.repositories.db import init_db
 from src.services.top_movies_service import run_daily_top_movies_job
 
 logging.basicConfig(
@@ -25,6 +26,7 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    await init_db()
     job = asyncio.create_task(run_daily_top_movies_job())
     try:
         yield
