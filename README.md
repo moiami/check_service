@@ -3,26 +3,26 @@
 Сервис для проверки пользователей и комментариев, а также генерации ежедневных новостей по топ-фильмам.
 
 Эндпоинты:
-GET /health/
-POST /api/v1/check/comment
-POST /api/v1/check/user
-GET /api/v1/news/
-GET /api/v1/news/latest
-GET /api/v1/news/{id}
-PATCH /api/v1/news/
-DELETE /api/v1/news/
-GET /api/v1/reports/
-GET /api/v1/reports/{id}
-PATCH /api/v1/reports/
-DELETE /api/v1/reports/
-GET /api/v1/comment-reports/
-GET /api/v1/comment-reports/{id}
-PATCH /api/v1/comment-reports/
-DELETE /api/v1/comment-reports/
-GET /api/v1/film-reviews/
-GET /api/v1/film-reviews/{id}
-PATCH /api/v1/film-reviews/
-DELETE /api/v1/film-reviews/
+1. GET /health/ 
+2. POST /api/v1/check/comment 
+3. POST /api/v1/check/user 
+4. GET /api/v1/news/ 
+5. GET /api/v1/news/latest 
+6. GET /api/v1/news/{id} 
+7. PATCH /api/v1/news/ 
+8. DELETE /api/v1/news/ 
+9. GET /api/v1/reports/ 
+10. GET /api/v1/reports/{id} 
+11. PATCH /api/v1/reports/ 
+12. DELETE /api/v1/reports/ 
+13. GET /api/v1/comment-reports/ 
+14. GET /api/v1/comment-reports/{id} 
+15. PATCH /api/v1/comment-reports/ 
+16. DELETE /api/v1/comment-reports/ 
+17. GET /api/v1/film-reviews/ 
+18. GET /api/v1/film-reviews/{id} 
+19. PATCH /api/v1/film-reviews/ 
+20. DELETE /api/v1/film-reviews/
 
 ## Главные ручки и бизнес-правила
 
