@@ -21,6 +21,7 @@ class CommentReportCreateDto(BaseModel):
     comment_id: UUID
     user_id: UUID
     report_text: str
+    conclusion: ConclusionEnum | None = None
 
 
 class CommentReportUpdateDto(BaseModel):
