@@ -21,6 +21,7 @@ class ReportDto(BaseModel):
 class ReportCreateDto(BaseModel):
     user_id: UUID
     report_text: str
+    conclusion: ConclusionEnum | None = None
     comment_ids: list[UUID] = []
     related_report_ids: list[UUID] = []
 

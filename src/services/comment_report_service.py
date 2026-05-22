@@ -48,6 +48,7 @@ async def create_comment_report(data: CommentReportCreateDto) -> UUID:
             comment_id=data.comment_id,
             user_id=data.user_id,
             report_text=data.report_text,
+            conclusion=data.conclusion,
         )
         return await insert(new_cr)
     except Exception as e:
