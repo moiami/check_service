@@ -52,7 +52,9 @@ DELETE /api/v1/film-reviews/
 ```bash
 docker compose up -d db
 python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
-.venv/bin/pytest -v
+.venv/bin/pytest -v 
+# Либо:
+pytest
 ```
 
 ## Главные ручки и бизнес-правила
